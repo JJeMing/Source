@@ -215,7 +215,9 @@ const bool UADActionSeq_ChangeClothColor::Execute(const TMap<FString, FLinearCol
 
 	UClothesEditor* pClothesEditor = Cast<UClothesEditor>(pADEditor);
 	if (!pClothesEditor)
+	{
 		return false;
+	}
 
 	pClothesEditor->UpdateMeshColorFromColorSet(colorSet);
 	return true;

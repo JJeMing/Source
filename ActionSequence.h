@@ -1,6 +1,4 @@
-﻿// Copyright(c) Burning Galaxy LTD. All Rights Reserved.
-
-#pragma once
+﻿#pragma once
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
 #include "Containers/Deque.h"
@@ -43,11 +41,11 @@ protected:
 
 	// 현재 인덱스
 	UPROPERTY(transient)
-		int								_Index			= 0;
+		int				_Index			= 0;
 
 	// 스토리지의 사이즈
 	UPROPERTY(transient)
-		uint8							_StorageSize	= 50;
+		uint8			_StorageSize	= 50;
 
 public:
 	virtual void BeginDestroy() override;
@@ -65,22 +63,21 @@ public:
 
 public:
 
-	//
-	void					SetStorageSize(const uint8 storageSize) { _StorageSize = storageSize; }
+	void			SetStorageSize(const uint8 storageSize) { _StorageSize = storageSize; }
 
 public:
-	virtual void			ClearStorage();
+	virtual void	ClearStorage();
 
-	virtual bool			PushSequence(UActionSequenceBase* pActionSeqBase);
-	virtual void			PopSequence(const uint8 count);
+	virtual bool	PushSequence(UActionSequenceBase* pActionSeqBase);
+	virtual void	PopSequence(const uint8 count);
 
-	virtual bool			RedoAction();
-	virtual bool			UndoAction();
+	virtual bool	RedoAction();
+	virtual bool	UndoAction();
 
-	virtual bool			EnableRedoAction() { return _Index < _ActionSequenceStorage.Num(); }
-	virtual bool			EnableUndoAction() { return _Index > 0; }
+	virtual bool	EnableRedoAction() { return _Index < _ActionSequenceStorage.Num(); }
+	virtual bool	EnableUndoAction() { return _Index > 0; }
 
 private:
-	bool					DestroySequence(UActionSequenceBase* pActionSeqBase) const;
+	bool			DestroySequence(UActionSequenceBase* pActionSeqBase) const;
 
 };

@@ -1,6 +1,4 @@
-﻿// Copyright(c) Burning Galaxy LTD. All Rights Reserved.
-
-#pragma once
+﻿#pragma once
 #include "CoreMinimal.h"
 #include "ActionSequence/GCActionSequence.h"
 #include "Game/Decal/DecalTypes.h"
@@ -27,21 +25,21 @@ class UADActionSeq_DecalTransform : public UActionSequenceBase
 	GENERATED_BODY()
 
 public:
-	void							SetUndoSnapshot(const DecalLayerId decalLayerId, const FDecalTransform& decalLayoutInfo);
-	void							SetRedoSnapshot(const DecalLayerId decalLayerId, const FDecalTransform& decalLayoutInfo);
+	void			SetUndoSnapshot(const DecalLayerId decalLayerId, const FDecalTransform& decalLayoutInfo);
+	void			SetRedoSnapshot(const DecalLayerId decalLayerId, const FDecalTransform& decalLayoutInfo);
 
 public:
-	virtual bool					Redo() override;
-	virtual bool					Undo() override;
+	virtual bool	Redo() override;
+	virtual bool	Undo() override;
 
 private:
-	const bool						ExecuteSnapShot(const FDecalTransform& decalTransform);
+	const bool		ExecuteSnapShot(const FDecalTransform& decalTransform);
 
 protected:
-	DecalLayerId					_DecalLayerId;
+	DecalLayerId	_DecalLayerId;
 
-	FDecalTransform					_UndoTransformSnapShot;
-	FDecalTransform					_RedoTransformSnapShot;
+	FDecalTransform	_UndoTransformSnapShot;
+	FDecalTransform	_RedoTransformSnapShot;
 };
 
 // Decal의 색상을 변경하는 액션
@@ -51,19 +49,19 @@ class UADActionSeq_ChangeDecalColor : public UActionSequenceBase
 	GENERATED_BODY()
 
 public:
-	void							SetActionData(const DecalLayerId decalLayerId, const FLinearColor& undoColor, const FLinearColor& redoColor);
+	void			SetActionData(const DecalLayerId decalLayerId, const FLinearColor& undoColor, const FLinearColor& redoColor);
 public:
-	virtual bool					Redo() override;
-	virtual bool					Undo() override;
+	virtual bool	Redo() override;
+	virtual bool	Undo() override;
 
 private:
-	const bool						Execute(const FLinearColor color);
+	const bool		Execute(const FLinearColor color);
 
 protected:
-	DecalLayerId					_DecalLayerId;
+	DecalLayerId	_DecalLayerId;
 
-	FLinearColor					_UndoColor;
-	FLinearColor					_RedoColor;
+	FLinearColor	_UndoColor;
+	FLinearColor	_RedoColor;
 };
 
 USTRUCT(Blueprintable)
@@ -85,14 +83,14 @@ class UADActionSeq_ChangeClothColor : public UActionSequenceBase
 	GENERATED_BODY()
 
 public:
-	void							SetActionData(const TArray<FChangeClothColorData>& changeClothColorDatas);
+	void			SetActionData(const TArray<FChangeClothColorData>& changeClothColorDatas);
 
 public:
-	virtual bool					Redo() override;
-	virtual bool					Undo() override;
+	virtual bool	Redo() override;
+	virtual bool	Undo() override;
 
 private:
-	const bool						Execute(const TMap<FString, FLinearColor>& colorSet);
+	const bool		Execute(const TMap<FString, FLinearColor>& colorSet);
 
 protected:
 	TArray<FChangeClothColorData>	_ChangeClothColorDatas;
@@ -105,14 +103,14 @@ class UADActionSeq_SwapDecalLayer : public UActionSequenceBase
 	GENERATED_BODY()
 
 public:
-	void							SetActionData(const DecalLayerId decalLayerId, const int32 undoOrder, const int32 redoOrder);
+	void			SetActionData(const DecalLayerId decalLayerId, const int32 undoOrder, const int32 redoOrder);
 
 public:
-	virtual bool					Redo() override;
-	virtual bool					Undo() override;
+	virtual bool	Redo() override;
+	virtual bool	Undo() override;
 
 private:
-	const bool						Execute(const int32 currentOrder, const int32 changeOrder);
+	const bool		Execute(const int32 currentOrder, const int32 changeOrder);
 
 protected:
 	DecalLayerId					_DecalLayerId;
@@ -128,23 +126,23 @@ class UADActionSeq_TextureData : public UActionSequenceBase
 	GENERATED_BODY()
 
 public:
-	void							SetTextureInfo(const FDecalLayerStruct& newLayerInfo)
-									{
-										_DecalLayerInfo = newLayerInfo;
-									}
+	void				SetTextureInfo(const FDecalLayerStruct& newLayerInfo)
+						{
+							_DecalLayerInfo = newLayerInfo;
+						}
 
-	void							SetTextureInfo(const DecalLayerId decalLayerId, const int32 insertIdx, const FDecalLayerStruct& newLayerInfo);
-	void							SetTextureRawData(const TArray<uint8>& rawData) { _TextureRawData = rawData; }
-
-protected:
-	const bool						AddDecalTexture();
-	const bool						RemoveDecalTexture();
+	void				SetTextureInfo(const DecalLayerId decalLayerId, const int32 insertIdx, const FDecalLayerStruct& newLayerInfo);
+	void				SetTextureRawData(const TArray<uint8>& rawData) { _TextureRawData = rawData; }
 
 protected:
-	FDecalLayerStruct				_DecalLayerInfo;
-	DecalLayerId					_DecalLayerId;
-	int32							_DecalLayerIdx;
-	TArray<uint8>					_TextureRawData;
+	const bool			AddDecalTexture();
+	const bool			RemoveDecalTexture();
+
+protected:
+	FDecalLayerStruct	_DecalLayerInfo;
+	DecalLayerId		_DecalLayerId;
+	int32				_DecalLayerIdx;
+	TArray<uint8>		_TextureRawData;
 };
 
 UCLASS()
@@ -153,8 +151,8 @@ class UADActionSeq_AddDecal : public UADActionSeq_TextureData
 	GENERATED_BODY()
 
 public:
-	virtual bool					Redo() override;
-	virtual bool					Undo() override;
+	virtual bool	Redo() override;
+	virtual bool	Undo() override;
 };
 
 UCLASS()
@@ -163,8 +161,8 @@ class UADActionSeq_RemoveDecal : public UADActionSeq_TextureData
 	GENERATED_BODY()
 
 public:
-	virtual bool					Redo() override;
-	virtual bool					Undo() override;
+	virtual bool	Redo() override;
+	virtual bool	Undo() override;
 };
 
 UCLASS()
@@ -173,10 +171,10 @@ class UADActionSeq_DuplicateDecal : public UADActionSeq_TextureData
 	GENERATED_BODY()
 
 public:
-	virtual bool					Redo() override;
-	virtual bool					Undo() override;
+	virtual bool	Redo() override;
+	virtual bool	Undo() override;
 private:
-	const bool						DuplicateDecalTexture();
+	const bool		DuplicateDecalTexture();
 };
 
 // 툴 박스에서 사용한 특정 값들을 변경하는 액션 (ex. 패턴, 오파시티 등 )
@@ -186,25 +184,25 @@ class UADActionSeq_DecalTool : public UActionSequenceBase
 	GENERATED_BODY()
 
 public:
-	void							SetActionData(const DecalLayerId decalLayerId, const EADToolKeyword toolType, const float undoValue, const float redoValue);
+	void			SetActionData(const DecalLayerId decalLayerId, const EADToolKeyword toolType, const float undoValue, const float redoValue);
 
-	void							SetUndoData(const DecalLayerId decalLayerId, const EADToolKeyword toolType, const float value);
-	void							SetRedoData(const DecalLayerId decalLayerId, const EADToolKeyword toolType, const float value);
+	void			SetUndoData(const DecalLayerId decalLayerId, const EADToolKeyword toolType, const float value);
+	void			SetRedoData(const DecalLayerId decalLayerId, const EADToolKeyword toolType, const float value);
 
 public:
-	virtual bool					Redo() override;
-	virtual bool					Undo() override;
+	virtual bool	Redo() override;
+	virtual bool	Undo() override;
 
 private:
-	const bool						Execute(float value);
+	const bool		Execute(float value);
 
 protected:
-	DecalLayerId					_DecalLayerId;
+	DecalLayerId	_DecalLayerId;
 
-	EADToolKeyword					_ToolType;
+	EADToolKeyword	_ToolType;
 
-	float							_UndoValue;
-	float							_RedoValue;
+	float			_UndoValue;
+	float			_RedoValue;
 };
 
 // Decal을 좌우반전 하는 액션
@@ -214,17 +212,17 @@ class UADActionSeq_FlipDecal : public UActionSequenceBase
 	GENERATED_BODY()
 
 public:
-	void							SetActionData(const DecalLayerId decalLayerId, const EFlipType flipType);
+	void			SetActionData(const DecalLayerId decalLayerId, const EFlipType flipType);
 
 public:
-	virtual bool					Redo() override;
-	virtual bool					Undo() override;
+	virtual bool	Redo() override;
+	virtual bool	Undo() override;
 
 private:
-	const bool						Execute();
+	const bool		Execute();
 
 protected:
-	DecalLayerId					_DecalLayerId;
+	DecalLayerId	_DecalLayerId;
 	
-	EFlipType						_FlipType;
+	EFlipType		_FlipType;
 };
